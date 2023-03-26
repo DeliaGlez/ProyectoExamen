@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
@@ -16,6 +17,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.awt.*;
 
 public class Interfaz extends JFrame {
@@ -23,7 +26,7 @@ public class Interfaz extends JFrame {
 	public JPanel panel;
 	public int anterior;
 	public int actual;
-	//public int siguiente;
+	public String nombreUser; 
 	
     public Interfaz(){
     	
@@ -90,11 +93,7 @@ public class Interfaz extends JFrame {
     	this.repaint();
         this.revalidate();
     }
-    /*
-    public void guardarPanelAnt(int siguiente) {
-    	anterior=actual;
-    	actual=siguiente;
-    }*/
+    
 
     public void Menu(JPanel nuevo){
 
@@ -228,13 +227,40 @@ public class Interfaz extends JFrame {
 		iniciarSesion.setBackground(Color.decode("#2C3333"));
 		iniciarSesion.setForeground(Color.decode("#FFFFFF"));
 		
-		// agregar actionListener para conectar el HolaUsuario();
-		//falta validaciones
 		iniciarSesion.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				actualizarPanel(2);
+
+                String correo = nombredata.getText();
+                String password = String.valueOf(contradata.getPassword());
+                String[] data;
+
+                try{
+                    BufferedReader BR = new BufferedReader(new FileReader("users.txt"));
+                    String renglon;
+                    boolean validacion = false;
+
+                    while((renglon = BR.readLine()) != null ){
+
+                        data = renglon.split(",");
+
+                        if (data[2].equals(correo) && data[3].equals(password)) {
+                        	nombreUser=data[0];
+                            JOptionPane.showMessageDialog(null, "Bienvenido "+ nombreUser,"INGRESO EXITOSO", JOptionPane.INFORMATION_MESSAGE);
+                            actualizarPanel(2);
+                            validacion = true;
+                        }
+                    }
+                    if (validacion == false){
+                        JOptionPane.showMessageDialog(null, "El usuario y contraseña no coindicen","Error!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    
+                }catch(Exception f){
+                	System.err.println("No se encontro archivo");
+                }
+                
+				
 			}			
 		});
 		
@@ -274,7 +300,7 @@ public class Interfaz extends JFrame {
 
         Menu(HolaUsuario);
 
-        JLabel HolaUsuarioText = new JLabel("Hola “Usuario”!");
+        JLabel HolaUsuarioText = new JLabel("Hola "+nombreUser+" !");
         HolaUsuarioText.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 40));
         HolaUsuarioText.setForeground(Color.decode("#0E8388"));
         HolaUsuarioText.setSize(300,50);
