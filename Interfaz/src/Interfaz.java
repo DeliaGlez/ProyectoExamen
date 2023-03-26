@@ -53,10 +53,8 @@ public class Interfaz extends JFrame {
     }
     
     public void actualizarPanel(int ventSiguiente) {
-    	
     	anterior=actual;
     	actual=ventSiguiente;
-    	
     	
     	if(panel!= null) {
 			this.remove(panel);
@@ -65,12 +63,10 @@ public class Interfaz extends JFrame {
     	switch (actual) {
     	case 1:
     		panel = AccedeATuCuenta(); 
-			
 			this.add(panel);
     		break;
     	case 2:
     		panel = HolaUsuario(); 
-			
 			this.add(panel);
     		break;
     	case 3:
@@ -89,10 +85,7 @@ public class Interfaz extends JFrame {
     		panel = ComoCrearUnUsuario(); 
 			this.add(panel);
     		break;
-    		
     	}
-    		
-    	
     	this.repaint();
         this.revalidate();
     }
@@ -129,54 +122,41 @@ public class Interfaz extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				actualizarPanel(3);
-				
 			}
         	
         });
         item12.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				actualizarPanel(1);
-				
 			}
-        	
         });
         
         item21.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				actualizarPanel(4);
-				
-			}
-        	
+				actualizarPanel(4);				
+			}        	
         });
+        
         item22.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				actualizarPanel(5);
-				
+				actualizarPanel(5);	
 			}
-        	
         });
+        
         item31.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				actualizarPanel(6);
-				
-			}
-        	
+				actualizarPanel(6);				
+			}        	
         });
-        
-        
-        
+                       
         opc1.add(item11);
         opc1.add(item12);
 		opc2.add(item21);
@@ -250,19 +230,14 @@ public class Interfaz extends JFrame {
 		// agregar actionListener para conectar el HolaUsuario();
 		//falta validaciones
 		iniciarSesion.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				actualizarPanel(2);
-			}
-			
+			}			
 		});
 		
 		AccedeATuCuenta.add(iniciarSesion);
-
-        
-		
 
         JButton Cancelar = new JButton();
         Cancelar.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 15));
@@ -403,6 +378,18 @@ public class Interfaz extends JFrame {
 		Cancelar.setText("Cancelar");
         Cancelar.setBackground(Color.decode("#2C3333"));
         Cancelar.setForeground(Color.decode("#FFFFFF"));
+        
+        // accion boton cancelar 
+        Cancelar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				actualizarPanel(anterior);
+			}
+			
+		});
+        
 		CuentaPersonal.add(Cancelar);
 
         this.add(CuentaPersonal);
@@ -562,6 +549,17 @@ public class Interfaz extends JFrame {
 		Cancelar.setText("Cancelar");
         Cancelar.setBackground(Color.decode("#2C3333"));
         Cancelar.setForeground(Color.decode("#FFFFFF"));
+        
+     // accion boton cancelar 
+        Cancelar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				actualizarPanel(anterior);
+			}
+			
+		});
 		CrearUsuario.add(Cancelar);
 
         this.add(CrearUsuario);
@@ -597,6 +595,17 @@ public class Interfaz extends JFrame {
 		CrearUnUsuarioAhora.setText("Crear un usuario ahora");
         CrearUnUsuarioAhora.setBackground(Color.decode("#2C3333"));
         CrearUnUsuarioAhora.setForeground(Color.decode("#FFFFFF"));
+        
+     // accion boton cancelar 
+        CrearUnUsuarioAhora.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				actualizarPanel(5);
+			}
+			
+		});
 		ComoCrearUnUsuario.add(CrearUnUsuarioAhora);
         
         JTextArea helptext = new JTextArea("  1. Hacer click en la opción “Usuarios” en el menú superior." + "\n" + "\n  2. Hacer click en la opción “Crear Usuario” en el menú" + "\n      desplegado" + "\n" + "\n  3. Llenar los campos solicitados" + "\n" + "\n  4. Hacer click en el botón “Crear usuario”" + "\n" + "\n  5. Listo, el usuario se ha creado");
