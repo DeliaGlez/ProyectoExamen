@@ -2,6 +2,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -21,11 +24,42 @@ public class Interfaz extends JFrame {
         this.setLayout(null);
 
         
-        AccedeATuCuenta();
+        //AccedeATuCuenta();
+        HolaUsuario();
 
         this.repaint();
         this.revalidate();
         this.setVisible(true);
+    }
+
+    public void Menu(JPanel nuevo){
+
+        //JMENUBAR
+		JMenuBar barra = new JMenuBar();
+		barra.setLocation(0,0);
+		barra.setSize(500, 20);
+		
+		JMenu opc1 = new JMenu("Cuenta");
+		JMenu opc2 = new JMenu("Usuarios");
+		JMenu opc3 = new JMenu("Ayuda");
+		
+		barra.add(opc1);
+		barra.add(opc2);
+		barra.add(opc3);
+		
+        JMenuItem item11 = new JMenuItem("Mi Cuenta");
+        JMenuItem item12 = new JMenuItem("Cerrar Sesion");
+		JMenuItem item21 = new JMenuItem("Lista De Usuarios");
+		JMenuItem item22 = new JMenuItem("Crear Usuario");
+        JMenuItem item31 = new JMenuItem("¿Como crear usuarios?");
+		
+        opc1.add(item11);
+        opc1.add(item12);
+		opc2.add(item21);
+        opc2.add(item22);
+		opc3.add(item31);
+
+        nuevo.add(barra);
     }
 
     public void AccedeATuCuenta() {
@@ -105,8 +139,28 @@ public class Interfaz extends JFrame {
     }
 
     public void HolaUsuario(){
-        
-        //falta hacer este
+
+        JPanel HolaUsuario = new JPanel();
+        HolaUsuario.setSize(this.getWidth(),this.getHeight());
+        HolaUsuario.setBackground(Color.decode("#2C3333"));
+        HolaUsuario.setLocation(0,0);
+        HolaUsuario.setLayout(null);
+
+        Menu(HolaUsuario);
+
+        JLabel HolaUsuarioText = new JLabel("Hola Usuario!");
+        HolaUsuarioText.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 40));
+        HolaUsuarioText.setForeground(Color.decode("#0E8388"));
+        HolaUsuarioText.setSize(250,50);
+        HolaUsuarioText.setLocation(130,110);
+        HolaUsuario.add(HolaUsuarioText);
+
+        JLabel imagen = new JLabel(new ImageIcon("Interfaz\\img\\hand.png"));
+        imagen.setLocation(170,200);
+        imagen.setSize(150,150);
+        HolaUsuario.add(imagen);
+
+        this.add(HolaUsuario);
     }
 
 }
