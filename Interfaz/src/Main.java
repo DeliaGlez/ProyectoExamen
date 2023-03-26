@@ -1,6 +1,8 @@
 public class Main {
     public static void main(String[] args) throws Exception {
+
         PantallaCarga carga = new PantallaCarga();
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
             carga.setVisible (true) ;
