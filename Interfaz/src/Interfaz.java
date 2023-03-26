@@ -27,7 +27,7 @@ public class Interfaz extends JFrame {
 	
     public Interfaz(){
     	
-        Image icono = Toolkit.getDefaultToolkit().getImage("Interfaz\\img\\frameicon.jpg");
+        Image icono = Toolkit.getDefaultToolkit().getImage("frameicon.jpg");
         this.setIconImage(icono);
         this.setSize(500,700);
         this.setLocationRelativeTo(null);
@@ -40,6 +40,7 @@ public class Interfaz extends JFrame {
         this.add(panel);
         anterior=1;
         actual=1;
+        
         //AccedeATuCuenta();
         //HolaUsuario();
         //CuentaPersonal();
@@ -188,7 +189,7 @@ public class Interfaz extends JFrame {
         aTuCuentaText.setLocation(145,80);
         AccedeATuCuenta.add(aTuCuentaText);
 
-        JLabel imagen = new JLabel(new ImageIcon("Interfaz\\img\\ingreso.png"));
+        JLabel imagen = new JLabel(new ImageIcon("ingreso.png"));
         imagen.setLocation(155,170);
         imagen.setSize(150,180);
         AccedeATuCuenta.add(imagen);
@@ -276,11 +277,11 @@ public class Interfaz extends JFrame {
         JLabel HolaUsuarioText = new JLabel("Hola “Usuario”!");
         HolaUsuarioText.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 40));
         HolaUsuarioText.setForeground(Color.decode("#0E8388"));
-        HolaUsuarioText.setSize(250,50);
-        HolaUsuarioText.setLocation(130,110);
+        HolaUsuarioText.setSize(300,50);
+        HolaUsuarioText.setLocation(110,110);
         HolaUsuario.add(HolaUsuarioText);
 
-        JLabel imagen = new JLabel(new ImageIcon("Interfaz\\img\\hand.png"));
+        JLabel imagen = new JLabel(new ImageIcon("hand.png"));
         imagen.setLocation(170,200);
         imagen.setSize(150,150);
         HolaUsuario.add(imagen);
@@ -306,7 +307,7 @@ public class Interfaz extends JFrame {
         CuentaPersonalText.setLocation(105,60);
         CuentaPersonal.add(CuentaPersonalText);
 
-        JLabel imagen = new JLabel(new ImageIcon("Interfaz\\img\\iconcyan.png"));
+        JLabel imagen = new JLabel(new ImageIcon("iconcyan.png"));
         imagen.setSize(150,170);
         imagen.setLocation(170,130);
         CuentaPersonal.add(imagen);
@@ -464,7 +465,7 @@ public class Interfaz extends JFrame {
         CuentaPersonalText.setLocation(130,50);
         CrearUsuario.add(CuentaPersonalText);
 
-        JLabel imagen = new JLabel(new ImageIcon("Interfaz\\img\\createUsercyan.png"));
+        JLabel imagen = new JLabel(new ImageIcon("createUsercyan.png"));
         imagen.setSize(150,170);
         imagen.setLocation(190,100);
         CrearUsuario.add(imagen);
@@ -583,7 +584,7 @@ public class Interfaz extends JFrame {
         ComoCrearUnUsuarioText.setLocation(90,50);
         ComoCrearUnUsuario.add(ComoCrearUnUsuarioText);
 
-        JLabel imagen = new JLabel(new ImageIcon("Interfaz\\img\\helpcyan.png"));
+        JLabel imagen = new JLabel(new ImageIcon("helpcyan.png"));
         imagen.setSize(150,170);
         imagen.setLocation(170,120);
         ComoCrearUnUsuario.add(imagen);
