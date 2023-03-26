@@ -14,12 +14,19 @@ import javax.swing.JTextField;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.*;
 
 public class Interfaz extends JFrame {
 
+	public JPanel panel;
+	public int anterior;
+	public int actual;
+	//public int siguiente;
+	
     public Interfaz(){
-
+    	
         Image icono = Toolkit.getDefaultToolkit().getImage("Interfaz\\img\\frameicon.jpg");
         this.setIconImage(icono);
         this.setSize(500,700);
@@ -29,8 +36,11 @@ public class Interfaz extends JFrame {
         this.setResizable(false);
         this.setLayout(null);
 
-        
-        AccedeATuCuenta();
+        panel =AccedeATuCuenta();
+        this.add(panel);
+        anterior=1;
+        actual=1;
+        //AccedeATuCuenta();
         //HolaUsuario();
         //CuentaPersonal();
         //ListaDeUsuarios();
@@ -41,6 +51,56 @@ public class Interfaz extends JFrame {
         this.revalidate();
         this.setVisible(true);
     }
+    
+    public void actualizarPanel(int ventSiguiente) {
+    	
+    	anterior=actual;
+    	actual=ventSiguiente;
+    	
+    	
+    	if(panel!= null) {
+			this.remove(panel);
+		}
+		
+    	switch (actual) {
+    	case 1:
+    		panel = AccedeATuCuenta(); 
+			
+			this.add(panel);
+    		break;
+    	case 2:
+    		panel = HolaUsuario(); 
+			
+			this.add(panel);
+    		break;
+    	case 3:
+    		panel = CuentaPersonal(); 
+			this.add(panel);
+    		break;
+    	case 4:
+    		panel = ListaDeUsuarios(); 
+			this.add(panel);
+    		break;
+    	case 5:
+    		panel = CrearUsuario(); 
+			this.add(panel);
+    		break;
+    	case 6:
+    		panel = ComoCrearUnUsuario(); 
+			this.add(panel);
+    		break;
+    		
+    	}
+    		
+    	
+    	this.repaint();
+        this.revalidate();
+    }
+    /*
+    public void guardarPanelAnt(int siguiente) {
+    	anterior=actual;
+    	actual=siguiente;
+    }*/
 
     public void Menu(JPanel nuevo){
 
@@ -63,6 +123,60 @@ public class Interfaz extends JFrame {
 		JMenuItem item22 = new JMenuItem("Crear Usuario");
         JMenuItem item31 = new JMenuItem("¿Como crear usuarios?");
 		
+        item11.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				actualizarPanel(3);
+				
+			}
+        	
+        });
+        item12.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				actualizarPanel(1);
+				
+			}
+        	
+        });
+        
+        item21.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				actualizarPanel(4);
+				
+			}
+        	
+        });
+        item22.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				actualizarPanel(5);
+				
+			}
+        	
+        });
+        item31.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				actualizarPanel(6);
+				
+			}
+        	
+        });
+        
+        
+        
         opc1.add(item11);
         opc1.add(item12);
 		opc2.add(item21);
@@ -72,7 +186,7 @@ public class Interfaz extends JFrame {
         nuevo.add(barra);
     }
 
-    public void AccedeATuCuenta() {
+    public JPanel AccedeATuCuenta() {
 
         JPanel AccedeATuCuenta = new JPanel();
         AccedeATuCuenta.setSize(this.getWidth(),this.getHeight());
@@ -125,16 +239,30 @@ public class Interfaz extends JFrame {
         contradata.setLocation(76,495);
         AccedeATuCuenta.add(contradata);
 
-        JButton IniciarSesion = new JButton();
-        IniciarSesion.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 15));
-		IniciarSesion.setSize(150, 40);
-		IniciarSesion.setLocation(255, 550);
-		IniciarSesion.setText("Iniciar Sesion");
-        IniciarSesion.setBackground(Color.decode("#2C3333"));
-        IniciarSesion.setForeground(Color.decode("#FFFFFF"));
-		AccedeATuCuenta.add(IniciarSesion);
+        JButton iniciarSesion = new JButton();
+        iniciarSesion.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 15));
+        iniciarSesion.setSize(150, 40);
+		iniciarSesion.setLocation(255, 550);
+		iniciarSesion.setText("Iniciar Sesion");
+		iniciarSesion.setBackground(Color.decode("#2C3333"));
+		iniciarSesion.setForeground(Color.decode("#FFFFFF"));
+		
+		// agregar actionListener para conectar el HolaUsuario();
+		//falta validaciones
+		iniciarSesion.addActionListener(new ActionListener() {
 
-        // agregar actionListener para conectar el HolaUsuario();
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				actualizarPanel(2);
+			}
+			
+		});
+		
+		AccedeATuCuenta.add(iniciarSesion);
+
+        
+		
 
         JButton Cancelar = new JButton();
         Cancelar.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 15));
@@ -143,12 +271,24 @@ public class Interfaz extends JFrame {
 		Cancelar.setText("Cancelar");
         Cancelar.setBackground(Color.decode("#2C3333"));
         Cancelar.setForeground(Color.decode("#FFFFFF"));
+        
+        // accion boton cancelar 
+        Cancelar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				actualizarPanel(1);
+			}
+			
+		});
 		AccedeATuCuenta.add(Cancelar);
 
         this.add(AccedeATuCuenta);
+		return AccedeATuCuenta;
     }
 
-    public void HolaUsuario(){
+    public JPanel HolaUsuario(){
 
         JPanel HolaUsuario = new JPanel();
         HolaUsuario.setSize(this.getWidth(),this.getHeight());
@@ -171,9 +311,10 @@ public class Interfaz extends JFrame {
         HolaUsuario.add(imagen);
 
         this.add(HolaUsuario);
+		return HolaUsuario;
     }
 
-    public void CuentaPersonal(){
+    public JPanel CuentaPersonal(){
 
         JPanel CuentaPersonal = new JPanel();
         CuentaPersonal.setSize(this.getWidth(),this.getHeight());
@@ -265,9 +406,10 @@ public class Interfaz extends JFrame {
 		CuentaPersonal.add(Cancelar);
 
         this.add(CuentaPersonal);
+		return CuentaPersonal;
     }
 
-    public void ListaDeUsuarios(){
+    public JPanel ListaDeUsuarios(){
 
         JPanel ListaDeUsuarios = new JPanel();
         ListaDeUsuarios.setSize(this.getWidth(),this.getHeight());
@@ -315,9 +457,10 @@ public class Interfaz extends JFrame {
         ListaDeUsuarios.add(espacioTabla);
 
         this.add(ListaDeUsuarios);
+		return ListaDeUsuarios;
     }
 
-    public void CrearUsuario(){
+    public JPanel CrearUsuario(){
 
         JPanel CrearUsuario = new JPanel();
         CrearUsuario.setSize(this.getWidth(),this.getHeight());
@@ -422,9 +565,10 @@ public class Interfaz extends JFrame {
 		CrearUsuario.add(Cancelar);
 
         this.add(CrearUsuario);
+		return CrearUsuario;
     }
 
-    public void ComoCrearUnUsuario(){
+    public JPanel ComoCrearUnUsuario(){
 
         JPanel ComoCrearUnUsuario = new JPanel();
         ComoCrearUnUsuario.setSize(this.getWidth(),this.getHeight());
@@ -467,6 +611,7 @@ public class Interfaz extends JFrame {
 
 
         this.add(ComoCrearUnUsuario);
+		return ComoCrearUnUsuario;
     }
 
 }
