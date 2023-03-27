@@ -19,6 +19,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.awt.*;
 
 public class Interfaz extends JFrame {
@@ -542,7 +545,7 @@ public class Interfaz extends JFrame {
         Contrasena.setLocation(75,420);
         CrearUsuario.add(Contrasena);
 
-        JTextField contradata = new JTextField();
+        JPasswordField contradata = new JPasswordField();
         contradata.setSize(350,30);
         contradata.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 15));
         contradata.setLocation(76,460);
@@ -555,7 +558,7 @@ public class Interfaz extends JFrame {
         confContrasena.setLocation(75,480);
         CrearUsuario.add(confContrasena);
 
-        JTextField confcontradata = new JTextField();
+        JPasswordField confcontradata = new JPasswordField();
         confcontradata.setSize(350,30);
         confcontradata.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 15));
         confcontradata.setLocation(76,520);
@@ -567,6 +570,84 @@ public class Interfaz extends JFrame {
 		CrearUsuariobutton.setLocation(255, 570);
         CrearUsuariobutton.setBackground(Color.decode("#2C3333"));
         CrearUsuariobutton.setForeground(Color.decode("#FFFFFF"));
+        
+        // accion crear usuario
+        CrearUsuariobutton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String valorNombre= nombredata.getText();
+				String valorApellidos= Apellidosdata.getText();
+				String valorEmail= Emaildata.getText();
+				String valorContra = new String(((JPasswordField) contradata).getPassword());
+				String valorConfContra = new String(((JPasswordField) confcontradata).getPassword());
+				
+				FileWriter archivo = null;
+                PrintWriter editor = null;
+                String[] data;
+				boolean encontrado = false;
+				
+				if(!valorNombre.isEmpty()&&!valorApellidos.isEmpty()&&!valorEmail.isEmpty()&&!valorContra.isEmpty()&&!valorConfContra.isEmpty()) {
+					
+					if (valorContra.contentEquals(valorConfContra) )	{
+						
+						String renglon;
+						try (BufferedReader BR = new BufferedReader(new FileReader("users.txt"))) {
+							
+							while((renglon = BR.readLine()) != null ){
+
+								data = renglon.split(",");
+
+								if (data[2].equals(valorEmail)) {
+									JOptionPane.showMessageDialog(null, "Correo ya existente.","ERROR!", JOptionPane.ERROR_MESSAGE);
+									encontrado= true;
+								}
+								
+							}
+						} catch (HeadlessException | IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+						if(!encontrado){
+							try {
+								JOptionPane.showMessageDialog(null, "Usuario creado","Message!", JOptionPane.INFORMATION_MESSAGE);
+		                        archivo = new FileWriter("users.txt",true);
+		                        editor = new PrintWriter(archivo);
+		                        editor.println();
+		                        editor.print(valorNombre + "," + valorApellidos + "," + valorEmail + "," + valorContra);
+		                        
+		                        nombredata.setText(null);
+		                        Apellidosdata.setText(null);
+		        				Emaildata.setText(null);
+		        				contradata.setText(null);
+		        				confcontradata.setText(null);		                        
+
+		                    } 
+		                    catch (Exception e1) {
+
+		                        System.err.println("Datos NO guardados");
+		                    } finally{
+		                        try {
+		                            archivo.close();
+		                        } catch (IOException e1) {
+		                            System.err.println("ERROR");
+		                        }
+		                    }
+						}
+
+					}
+					else{
+	                    JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden","ERROR!", JOptionPane.ERROR_MESSAGE);
+	                }
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Llene todos los campos.",null,JOptionPane.ERROR_MESSAGE);
+			}
+        	
+        });
+        
 		CrearUsuario.add(CrearUsuariobutton);
 
         JButton Cancelar = new JButton();
