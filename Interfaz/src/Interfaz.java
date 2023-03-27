@@ -37,12 +37,12 @@ public class Interfaz extends JFrame {
         this.setIconImage(icono);
         this.setSize(500,700);
         this.setLocationRelativeTo(null);
-        this.setTitle("New Icon!");
+        this.setTitle("Gestor de usuarios");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setLayout(null);
 
-        panel =AccedeATuCuenta();
+        panel = AccedeATuCuenta();
         this.add(panel);
         anterior=1;
         actual=1;
@@ -96,7 +96,6 @@ public class Interfaz extends JFrame {
     	this.repaint();
         this.revalidate();
     }
-    
 
     public void Menu(JPanel nuevo){
 
@@ -303,7 +302,7 @@ public class Interfaz extends JFrame {
 
         Menu(HolaUsuario);
 
-        JLabel HolaUsuarioText = new JLabel("Hola "+nombreUser+" !");
+        JLabel HolaUsuarioText = new JLabel("Hola "+ nombreUser +" !", JLabel.CENTER);
         HolaUsuarioText.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 40));
         HolaUsuarioText.setForeground(Color.decode("#0E8388"));
         HolaUsuarioText.setSize(300,50);
@@ -450,22 +449,35 @@ public class Interfaz extends JFrame {
         Editar.setLocation(75,140);
         ListaDeUsuarios.add(Editar);
 
-        String opciones[] = {"Seleccione un usuario","a","b","c","d"};
+        String opciones[] = {"UsuarioA","UsuarioB","UsuarioC","UsuarioD","UsuarioE"};
         JComboBox EscogerUsuario = new JComboBox();
         EscogerUsuario.setSize(350,40);
+        EscogerUsuario.setSelectedItem(null);
         EscogerUsuario.setLocation(75,190);
         EscogerUsuario.setModel(new DefaultComboBoxModel(opciones));
         EscogerUsuario.setOpaque(true);
         EscogerUsuario.setBackground(Color.decode("#0E8388"));
-        ListaDeUsuarios.add(EscogerUsuario);
 
-        JButton EditarUsuario = new JButton("Editar a “Usuario” ");
+        JButton EditarUsuario = new JButton("Editar a");
         EditarUsuario.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 15));
-		EditarUsuario.setSize(350, 40);
-		EditarUsuario.setLocation(75, 250);
+        EditarUsuario.setSize(350, 40);
+        EditarUsuario.setLocation(75, 250);
         EditarUsuario.setBackground(Color.decode("#CBE4DE"));
         EditarUsuario.setForeground(Color.decode("#2C3333"));
-		ListaDeUsuarios.add(EditarUsuario);
+        ListaDeUsuarios.add(EditarUsuario);
+
+        EscogerUsuario.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String UsuarioX = (String)EscogerUsuario.getSelectedItem();
+                EditarUsuario.setText("Editar a “" + UsuarioX + "” ");
+            }
+            
+        });
+
+        ListaDeUsuarios.add(EscogerUsuario);
+        
 
         TablaConBoton tablita = new TablaConBoton();
         ListaDeUsuarios.add(tablita.getSPTabla());
