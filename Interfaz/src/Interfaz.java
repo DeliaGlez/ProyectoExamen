@@ -30,6 +30,7 @@ public class Interfaz extends JFrame {
 	public int anterior;
 	public int actual;
 	public String nombreUser; 
+    public String correoUser;
 	
     public Interfaz(){
     	
@@ -249,6 +250,7 @@ public class Interfaz extends JFrame {
 
                         if (data[2].equals(correo) && data[3].equals(password)) {
                         	nombreUser=data[0];
+                            correoUser=data[2];
                             JOptionPane.showMessageDialog(null, "Bienvenido "+ nombreUser,"INGRESO EXITOSO", JOptionPane.INFORMATION_MESSAGE);
                             actualizarPanel(2);
                             validacion = true;
@@ -318,6 +320,7 @@ public class Interfaz extends JFrame {
 		return HolaUsuario;
     }
 
+    
     public JPanel CuentaPersonal(){
 
         JPanel CuentaPersonal = new JPanel();
@@ -391,13 +394,127 @@ public class Interfaz extends JFrame {
         contradata.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 15));
         contradata.setLocation(76,520);
         CuentaPersonal.add(contradata);
+       
+        //lectura de datos y asignacion de los datos a los campos 
+        String[] data;
 
+        try{
+            BufferedReader BR = new BufferedReader(new FileReader("users.txt"));
+            String renglon;
+
+            while((renglon = BR.readLine()) != null ){
+
+                data = renglon.split(",");
+                if (data[2].equals(correoUser)) {
+                	nombredata.setText(data[0]);
+                	Apellidosdata.setText(data[1]);
+                	Emaildata.setText(data[2]);
+                	contradata.setText(data[3]);
+   
+                }
+            }
+            BR.close();
+ 
+        }catch(Exception f){
+        	System.err.println("No se encontro archivo");
+        }
+        
+        //
         JButton ActualizarDatos = new JButton("Actualizar datos");
         ActualizarDatos.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 15));
 		ActualizarDatos.setSize(150, 40);
 		ActualizarDatos.setLocation(255, 570);
         ActualizarDatos.setBackground(Color.decode("#2C3333"));
         ActualizarDatos.setForeground(Color.decode("#FFFFFF"));
+        
+        //accion  boton actualizar datos
+        ActualizarDatos.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String nuevoNombre=nombredata.getText();
+				String nuevoApell=Apellidosdata.getText();
+				String nuevoEmail=Emaildata.getText();
+				String nuevaContra=contradata.getText();
+				
+				FileWriter archivo = null;
+                PrintWriter editor = null;
+                String[] data;
+				boolean encontrado = false;
+				
+				if(!nuevoNombre.isEmpty()&&!nuevoApell.isEmpty()&&!nuevoEmail.isEmpty()&&!nuevaContra.isEmpty()) {
+						String texto="";
+						String renglon;
+						try (BufferedReader BR = new BufferedReader(new FileReader("users.txt"))) {
+							String temp="";
+							while((renglon = BR.readLine()) != null ){
+								temp= temp + renglon;
+								data = renglon.split(",");
+								
+								if (!(nuevoEmail.contentEquals(correoUser)) && data[2].equals(nuevoEmail)) {
+									JOptionPane.showMessageDialog(null, "Correo ya existente.","ERROR!", JOptionPane.ERROR_MESSAGE);
+									encontrado= true;
+								}
+								
+							}
+							texto= temp;
+							BR.close();
+						} catch (HeadlessException | IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+			
+						if(!encontrado){
+							
+							String[] arrText = null;
+							arrText = texto.split(",");
+	
+						    for (int i = 0; i < arrText.length; i++) {
+						     System.out.println(arrText[i]);
+						     if(arrText[i].equals(correoUser)) {
+						    	 arrText[i-2]=nuevoNombre;
+						    	 arrText[i-1]=nuevoApell;
+						    	 arrText[i]=nuevoEmail;
+						    	 arrText[i+1]=nuevaContra;
+						    	 
+						     }
+						   }
+						    correoUser=nuevoEmail;
+				
+							try {
+		                        archivo = new FileWriter("users.txt");
+		                        editor = new PrintWriter(archivo);
+		   
+		                        for(int i=0; i<arrText.length;i+=4) {
+		                        	if(i!=arrText.length-4) {
+		                        		editor.println(arrText[i]+","+arrText[i+1]+","+arrText[i+2]+","+arrText[i+3]+",");
+		                        	}
+		                        	else
+		                        		editor.print(arrText[i]+","+arrText[i+1]+","+arrText[i+2]+","+arrText[i+3]+",");
+		                        }
+		                        JOptionPane.showMessageDialog(null, "Informacion actualizada","Message!", JOptionPane.INFORMATION_MESSAGE);                       
+
+		                    } 
+		                    catch (Exception e1) {
+
+		                        System.err.println("Datos NO guardados");
+		                    } finally{
+		                        try {
+		                            archivo.close();
+		                        } catch (IOException e1) {
+		                            System.err.println("ERROR");
+		                        }
+		                    }
+						}
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Llene todos los campos.",null,JOptionPane.ERROR_MESSAGE);
+			
+			}
+        });
+        
+        
 		CuentaPersonal.add(ActualizarDatos);
 
         JButton Cancelar = new JButton();
