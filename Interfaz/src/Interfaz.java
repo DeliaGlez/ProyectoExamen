@@ -431,7 +431,7 @@ public class Interfaz extends JFrame {
         ActualizarDatos.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e){
 				// TODO Auto-generated method stub
 				String nuevoNombre=nombredata.getText();
 				String nuevoApell=Apellidosdata.getText();
@@ -444,74 +444,81 @@ public class Interfaz extends JFrame {
 				boolean encontrado = false;
 				
 				if(!nuevoNombre.isEmpty()&&!nuevoApell.isEmpty()&&!nuevoEmail.isEmpty()&&!nuevaContra.isEmpty()) {
-						String texto="";
-						String renglon;
-						try (BufferedReader BR = new BufferedReader(new FileReader("users.txt"))) {
-							String temp="";
-							while((renglon = BR.readLine()) != null ){
-								temp= temp + renglon;
-								data = renglon.split(",");
-								
-								if (!(nuevoEmail.contentEquals(correoUser)) && data[2].equals(nuevoEmail)) {
-									JOptionPane.showMessageDialog(null, "Correo ya existente.","ERROR!", JOptionPane.ERROR_MESSAGE);
-									encontrado= true;
-								}
-								
-							}
-							texto= temp;
-							BR.close();
-						} catch (HeadlessException | IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+
+                    String texto="";
+                    String renglon;
+
+                    try (BufferedReader BR = new BufferedReader(new FileReader("users.txt"))) {
+                        String temp="";
+                        while((renglon = BR.readLine()) != null ){
+                            temp= temp + renglon;
+                            data = renglon.split(",");
+                            
+                            if (!(nuevoEmail.contentEquals(correoUser)) && data[2].equals(nuevoEmail)) {
+                                JOptionPane.showMessageDialog(null, "Correo ya existente.","ERROR!", JOptionPane.ERROR_MESSAGE);
+                                Emaildata.setText(correoUser);
+                                encontrado= true;
+                            }
+                            
+                        }
+                        texto= temp;
+                        BR.close();
+                    } catch (HeadlessException | IOException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
 			
-						if(!encontrado){
-							
-							String[] arrText = null;
-							arrText = texto.split(",");
-	
-						    for (int i = 0; i < arrText.length; i++) {
-						     System.out.println(arrText[i]);
-						     if(arrText[i].equals(correoUser)) {
-						    	 arrText[i-2]=nuevoNombre;
-						    	 arrText[i-1]=nuevoApell;
-						    	 arrText[i]=nuevoEmail;
-						    	 arrText[i+1]=nuevaContra;
-						    	 
-						     }
-						   }
-						    correoUser=nuevoEmail;
-				
-							try {
-		                        archivo = new FileWriter("users.txt");
-		                        editor = new PrintWriter(archivo);
-		   
-		                        for(int i=0; i<arrText.length;i+=4) {
-		                        	if(i!=arrText.length-4) {
-		                        		editor.println(arrText[i]+","+arrText[i+1]+","+arrText[i+2]+","+arrText[i+3]+",");
-		                        	}
-		                        	else
-		                        		editor.print(arrText[i]+","+arrText[i+1]+","+arrText[i+2]+","+arrText[i+3]+",");
-		                        }
-		                        JOptionPane.showMessageDialog(null, "Informacion actualizada","Message!", JOptionPane.INFORMATION_MESSAGE);                       
+                    if(!encontrado){
+                        
+                        String[] arrText = null;
+                        arrText = texto.split(",");
 
-		                    } 
-		                    catch (Exception e1) {
+                        for (int i = 0; i < arrText.length; i++){
+                            
+                            if(arrText[i].equals(correoUser)){
+                                arrText[i-2]=nuevoNombre;
+                                arrText[i-1]=nuevoApell;
+                                arrText[i]=nuevoEmail;
+                                arrText[i+1]=nuevaContra;
+                            }
 
-		                        System.err.println("Datos NO guardados");
-		                    } finally{
-		                        try {
-		                            archivo.close();
-		                        } catch (IOException e1) {
-		                            System.err.println("ERROR");
-		                        }
-		                    }
-						}
+                        }
+
+                        correoUser=nuevoEmail;
+                        
+                        try {
+
+                            archivo = new FileWriter("users.txt");
+                            editor = new PrintWriter(archivo);
+        
+                            for(int i=0; i<arrText.length;i+=4) {
+
+                                if(i!=arrText.length-4){
+                                    editor.println(arrText[i]+","+arrText[i+1]+","+arrText[i+2]+","+arrText[i+3]+",");
+                                }
+                                else{
+                                    editor.print(arrText[i]+","+arrText[i+1]+","+arrText[i+2]+","+arrText[i+3]+",");
+                                }
+                            }
+
+                            JOptionPane.showMessageDialog(null, "Informacion actualizada","Message!", JOptionPane.INFORMATION_MESSAGE);                       
+
+                        } 
+                        catch (Exception e1) {
+                            System.err.println("Datos NO guardados");
+                        } finally{
+                            try {
+                                archivo.close();
+                            } catch (IOException e1) {
+                                System.err.println("ERROR");
+                            }
+                        }
+					}
 				}
-				else
+				else{
 					JOptionPane.showMessageDialog(null, "Llene todos los campos.",null,JOptionPane.ERROR_MESSAGE);
-			
-			}
+                }
+			}   
         });
         
         
@@ -566,12 +573,38 @@ public class Interfaz extends JFrame {
         Editar.setLocation(75,140);
         ListaDeUsuarios.add(Editar);
 
-        String opciones[] = {"UsuarioA","UsuarioB","UsuarioC","UsuarioD","UsuarioE"};
+        //sacar array con correos
+        
+		
+        String[] data;
+		String renglon;
+        String texto="";
+
+        try (BufferedReader BR = new BufferedReader(new FileReader("users.txt"))) {
+            String temp="";
+            while((renglon = BR.readLine()) != null ){
+                
+                data = renglon.split(",");
+                temp= temp + data[2]+",";
+                
+                
+            }
+            texto = temp;
+            
+            BR.close();
+        } catch (HeadlessException | IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+
+        String[] datosCorreos = null;
+        datosCorreos = texto.split(",");
+
         JComboBox EscogerUsuario = new JComboBox();
         EscogerUsuario.setSize(350,40);
         EscogerUsuario.setSelectedItem(null);
         EscogerUsuario.setLocation(75,190);
-        EscogerUsuario.setModel(new DefaultComboBoxModel(opciones));
+        EscogerUsuario.setModel(new DefaultComboBoxModel(datosCorreos));
         EscogerUsuario.setOpaque(true);
         EscogerUsuario.setBackground(Color.decode("#0E8388"));
 
