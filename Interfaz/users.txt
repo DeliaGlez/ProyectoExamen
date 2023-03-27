@@ -1,4 +1,4 @@
 jonathan,soto,jsoto@uabcs.mx,password123,
 delia,vargas,delia@uabcs.mx,pass1,
 chris,rodriguez,chris@uabcs.mx,pass,
-ad,min,admin,1
+ad,min,admin,1,

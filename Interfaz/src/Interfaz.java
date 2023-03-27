@@ -31,6 +31,7 @@ public class Interfaz extends JFrame {
 	public int actual;
 	public String nombreUser; 
     public String correoUser;
+    public String correoComboSelect;
 	
     public Interfaz(){
     	
@@ -92,6 +93,10 @@ public class Interfaz extends JFrame {
     	case 6:
     		panel = ComoCrearUnUsuario(); 
 			this.add(panel);
+    		break;
+    	case 7:
+    		panel=editarUsuario();
+    		this.add(panel);
     		break;
     	}
     	this.repaint();
@@ -293,6 +298,9 @@ public class Interfaz extends JFrame {
         this.add(AccedeATuCuenta);
 		return AccedeATuCuenta;
     }
+    
+    
+
 
     public JPanel HolaUsuario(){
 
@@ -549,6 +557,233 @@ public class Interfaz extends JFrame {
 		return CuentaPersonal;
     }
 
+    public JPanel editarUsuario(){
+
+        JPanel CuentaPersonal = new JPanel();
+        CuentaPersonal.setSize(this.getWidth(),this.getHeight());
+        CuentaPersonal.setBackground(Color.decode("#2C3333"));
+        CuentaPersonal.setLocation(0,0);
+        CuentaPersonal.setLayout(null);
+
+        Menu(CuentaPersonal);
+
+        JLabel CuentaPersonalText = new JLabel("Editando a "+correoComboSelect);
+        CuentaPersonalText.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 20));
+        CuentaPersonalText.setForeground(Color.decode("#0E8388"));
+        CuentaPersonalText.setSize(300,50);
+        CuentaPersonalText.setLocation(105,60);
+        CuentaPersonal.add(CuentaPersonalText);
+
+        JLabel imagen = new JLabel(new ImageIcon("iconcyan.png"));
+        imagen.setSize(150,170);
+        imagen.setLocation(170,130);
+        CuentaPersonal.add(imagen);
+
+        JLabel Nombre = new JLabel("Nombre:");
+        Nombre.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 20));
+        Nombre.setForeground(Color.decode("#0E8388"));
+        Nombre.setSize(200,50);
+        Nombre.setLocation(75,300);
+        CuentaPersonal.add(Nombre);
+
+        JTextField nombredata = new JTextField();
+        nombredata.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 15));
+        nombredata.setSize(350,30);
+        nombredata.setLocation(76,340);
+        CuentaPersonal.add(nombredata);
+
+        JLabel Apellidos = new JLabel("Apellidos:");
+        Apellidos.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 20));
+        Apellidos.setForeground(Color.decode("#0E8388"));
+        Apellidos.setSize(200,50);
+        Apellidos.setLocation(75,360);
+        CuentaPersonal.add(Apellidos);
+
+        JTextField Apellidosdata = new JTextField();
+        Apellidosdata.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 15));
+        Apellidosdata.setSize(350,30);
+        Apellidosdata.setLocation(76,400);
+        CuentaPersonal.add(Apellidosdata);
+
+        JLabel Email = new JLabel("Correo electronico:");
+        Email.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 20));
+        Email.setForeground(Color.decode("#0E8388"));
+        Email.setSize(200,50);
+        Email.setLocation(75,420);
+        CuentaPersonal.add(Email);
+
+        JTextField Emaildata = new JTextField();
+        Emaildata.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 15));
+        Emaildata.setSize(350,30);
+        Emaildata.setLocation(76,460);
+        CuentaPersonal.add(Emaildata);
+
+        JLabel Contrasena = new JLabel("Contraseña:");
+        Contrasena.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 20));
+        Contrasena.setForeground(Color.decode("#0E8388"));
+        Contrasena.setSize(200,50);
+        Contrasena.setLocation(75,480);
+        CuentaPersonal.add(Contrasena);
+
+        JTextField contradata = new JTextField();
+        contradata.setSize(350,30);
+        contradata.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 15));
+        contradata.setLocation(76,520);
+        CuentaPersonal.add(contradata);
+       
+        //lectura de datos y asignacion de los datos a los campos 
+        String[] data;
+
+        try{
+            BufferedReader BR = new BufferedReader(new FileReader("users.txt"));
+            String renglon;
+
+            while((renglon = BR.readLine()) != null ){
+
+                data = renglon.split(",");
+                if (data[2].equals(correoComboSelect)) {
+                	nombredata.setText(data[0]);
+                	Apellidosdata.setText(data[1]);
+                	Emaildata.setText(data[2]);
+                	contradata.setText(data[3]);
+   
+                }
+            }
+            BR.close();
+ 
+        }catch(Exception f){
+        	System.err.println("No se encontro archivo");
+        }
+        
+        //
+        JButton ActualizarDatos = new JButton("Actualizar datos");
+        ActualizarDatos.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 15));
+		ActualizarDatos.setSize(150, 40);
+		ActualizarDatos.setLocation(255, 570);
+        ActualizarDatos.setBackground(Color.decode("#2C3333"));
+        ActualizarDatos.setForeground(Color.decode("#FFFFFF"));
+        
+        //accion  boton actualizar datos
+        ActualizarDatos.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e){
+				// TODO Auto-generated method stub
+				String nuevoNombre=nombredata.getText();
+				String nuevoApell=Apellidosdata.getText();
+				String nuevoEmail=Emaildata.getText();
+				String nuevaContra=contradata.getText();
+				
+				FileWriter archivo = null;
+                PrintWriter editor = null;
+                String[] data;
+				boolean encontrado = false;
+				
+				if(!nuevoNombre.isEmpty()&&!nuevoApell.isEmpty()&&!nuevoEmail.isEmpty()&&!nuevaContra.isEmpty()) {
+
+                    String texto="";
+                    String renglon;
+
+                    try (BufferedReader BR = new BufferedReader(new FileReader("users.txt"))) {
+                        String temp="";
+                        while((renglon = BR.readLine()) != null ){
+                            temp= temp + renglon;
+                            data = renglon.split(",");
+                            
+                            if (!(nuevoEmail.contentEquals(correoComboSelect)) && data[2].equals(nuevoEmail)) {
+                                JOptionPane.showMessageDialog(null, "Correo ya existente.","ERROR!", JOptionPane.ERROR_MESSAGE);
+                                Emaildata.setText(correoComboSelect);
+                                encontrado= true;
+                            }
+                            
+                        }
+                        texto= temp;
+                        BR.close();
+                    } catch (HeadlessException | IOException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+			
+                    if(!encontrado){
+                        
+                        String[] arrText = null;
+                        arrText = texto.split(",");
+
+                        for (int i = 0; i < arrText.length; i++){
+                            
+                            if(arrText[i].equals(correoComboSelect)){
+                                arrText[i-2]=nuevoNombre;
+                                arrText[i-1]=nuevoApell;
+                                arrText[i]=nuevoEmail;
+                                arrText[i+1]=nuevaContra;
+                            }
+
+                        }
+
+                        correoComboSelect=nuevoEmail;
+                        
+                        try {
+
+                            archivo = new FileWriter("users.txt");
+                            editor = new PrintWriter(archivo);
+        
+                            for(int i=0; i<arrText.length;i+=4) {
+
+                                if(i!=arrText.length-4){
+                                    editor.println(arrText[i]+","+arrText[i+1]+","+arrText[i+2]+","+arrText[i+3]+",");
+                                }
+                                else{
+                                    editor.print(arrText[i]+","+arrText[i+1]+","+arrText[i+2]+","+arrText[i+3]+",");
+                                }
+                            }
+
+                            JOptionPane.showMessageDialog(null, "Informacion actualizada","Message!", JOptionPane.INFORMATION_MESSAGE);                       
+
+                        } 
+                        catch (Exception e1) {
+                            System.err.println("Datos NO guardados");
+                        } finally{
+                            try {
+                                archivo.close();
+                            } catch (IOException e1) {
+                                System.err.println("ERROR");
+                            }
+                        }
+					}
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "Llene todos los campos.",null,JOptionPane.ERROR_MESSAGE);
+                }
+			}   
+        });
+        
+        
+		CuentaPersonal.add(ActualizarDatos);
+
+        JButton Cancelar = new JButton();
+        Cancelar.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 15));
+		Cancelar.setSize(150, 40);
+		Cancelar.setLocation(95, 570);
+		Cancelar.setText("Cancelar");
+        Cancelar.setBackground(Color.decode("#2C3333"));
+        Cancelar.setForeground(Color.decode("#FFFFFF"));
+        
+        // accion boton cancelar 
+        Cancelar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				actualizarPanel(anterior);
+			}
+			
+		});
+        
+		CuentaPersonal.add(Cancelar);
+
+        this.add(CuentaPersonal);
+		return CuentaPersonal;
+    }
     public JPanel ListaDeUsuarios(){
 
         JPanel ListaDeUsuarios = new JPanel();
@@ -616,6 +851,17 @@ public class Interfaz extends JFrame {
         EditarUsuario.setForeground(Color.decode("#2C3333"));
         ListaDeUsuarios.add(EditarUsuario);
 
+        EditarUsuario.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                correoComboSelect = (String)EscogerUsuario.getSelectedItem();
+                actualizarPanel(7);
+                
+            }
+            
+        });
+        
         EscogerUsuario.addActionListener(new ActionListener() {
 
             @Override
@@ -895,5 +1141,4 @@ public class Interfaz extends JFrame {
         this.add(ComoCrearUnUsuario);
 		return ComoCrearUnUsuario;
     }
-
 }
