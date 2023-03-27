@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        /*PantallaCarga carga = new PantallaCarga();
+        PantallaCarga carga = new PantallaCarga();
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -16,13 +16,13 @@ public class Main {
             }
         } catch (Exception e) {
             // TODO: handle exception
-        }*/
+        }
 
         Interfaz interfaz = new Interfaz();
 
-        //carga.setVisible(false);
+        carga.setVisible(false);
         interfaz.setVisible(true);
 
-        //carga.dispose();
+        carga.dispose();
     }
 }

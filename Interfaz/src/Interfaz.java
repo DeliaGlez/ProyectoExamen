@@ -467,6 +467,9 @@ public class Interfaz extends JFrame {
         EditarUsuario.setForeground(Color.decode("#2C3333"));
 		ListaDeUsuarios.add(EditarUsuario);
 
+        TablaConBoton tablita = new TablaConBoton();
+        ListaDeUsuarios.add(tablita.getSPTabla());
+
         JLabel espacioTabla = new JLabel("Espacio de la tabla", JLabel.CENTER);
         espacioTabla.setOpaque(true);
         espacioTabla.setBackground(Color.decode("#0E8388"));
