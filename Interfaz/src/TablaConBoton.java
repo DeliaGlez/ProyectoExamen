@@ -1,6 +1,9 @@
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -22,8 +25,45 @@ public class TablaConBoton{
     }
 
     public void Inicializador(){
+    	
+    	Object[] info = null;
+    	Object[] arrBoton = new Object[5]; 
+    	
+    	JButton Eliminar = new JButton("Eliminar");
+        Object[][] data = null;
 
-        setDefaulTableModel(getData(), getnombreColumnas());
+        setDefaulTableModel(data, getnombreColumnas());
+
+        try{
+            BufferedReader BR = new BufferedReader(new FileReader("users.txt"));
+            String renglon;
+            
+
+            while((renglon = BR.readLine()) != null ){
+                
+                info = renglon.split(",");
+                
+               for(int i=0;i<arrBoton.length;i++) {
+                	if((i % 4 == 0)&& (i!=0)) {
+                		arrBoton[i]= Eliminar;
+                	}
+                	else {
+                		arrBoton[i]=info[i];
+                	}
+                	
+                	
+                }
+               
+                dtm.addRow(arrBoton);
+
+            }
+            
+            
+        }catch(Exception f){
+        	System.err.println("No se encontro archivo");
+        }
+
+        
         setTable(dtm);
         setSPTabla(tabla);
         
@@ -54,6 +94,7 @@ public class TablaConBoton{
     public void setTable(DefaultTableModel dtm){
         
         tabla = new JTable(dtm);
+        tabla.getTableHeader().setReorderingAllowed(false);
 
         //editar el tamaño de las celdas
         tabla.getColumnModel().getColumn(0).setPreferredWidth(70);
@@ -114,7 +155,7 @@ public class TablaConBoton{
         
         return this.sp;
     }
-    
+    /*
     public Object[][] getData(){
     
         JButton Eliminar = new JButton("Eliminar");
@@ -127,6 +168,6 @@ public class TablaConBoton{
         };
     
         return data;
-    }
+    }*/
 
 }
