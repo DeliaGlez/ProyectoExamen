@@ -150,8 +150,15 @@ public class TablaConBoton{
                         actualizarText(correoAux);
                         correoAux = "";
                         
+                        DefaultTableModel tableModel = (DefaultTableModel) tabla.getModel();
 
+                        if (tabla.getSelectedRowCount()==1) {
+                            tableModel.removeRow(tabla.getSelectedRow());
+                        }
+                        
                     }
+
+                    
 
                 }
 
@@ -182,7 +189,7 @@ public class TablaConBoton{
 
 		String[] arrText = null;
         arrText = texto.split(",");
-        
+
         for (int i = 0; i < arrText.length; i++){
             
             if(arrText[i].equals(correoUser)){
@@ -192,22 +199,42 @@ public class TablaConBoton{
                 arrText[i+1]="0";
             }
         }
-        
+        System.out.println("Tam todos :"+arrText.length);
+        String[] arrNewText= new String[arrText.length-4];
+        int cont=0;
+
+        for (int i = 0; i < arrText.length; i++){
+            if(arrText[i]!="0" ){
+                arrNewText[cont]=arrText[i];
+                cont++;
+            }
+        }
+
         try {
 
             archivo = new FileWriter("users.txt");
             editor = new PrintWriter(archivo);
+            System.out.println("tamanio despues: "+arrNewText.length);
 
-            for(int i=0; i<arrText.length;i+=4) {
+            for(int i=0; i<arrNewText.length;i+=4) {
+                
+                
+                //if(i!=0){
+                //    editor.println();
+                //}
+                editor.println(arrNewText[i]+","+arrNewText[i+1]+","+arrNewText[i+2]+","+arrNewText[i+3]+",");
 
-                if(arrText[i]!="0"){
-                    if(i!=arrText.length-4){
-                        editor.println(arrText[i]+","+arrText[i+1]+","+arrText[i+2]+","+arrText[i+3]+",");
+
+                    /* 
+                    if(i!=(arrNewText.length-4)){
+                        System.out.println("Salto");
+                        editor.println(arrNewText[i]+","+arrNewText[i+1]+","+arrNewText[i+2]+","+arrNewText[i+3]+",");
                     }
                     else{
-                        editor.print(arrText[i]+","+arrText[i+1]+","+arrText[i+2]+","+arrText[i+3]+",");
-                    }
-                }
+                        System.out.println("aqui entro: "+i);
+                        editor.print(arrNewText[i]+","+arrNewText[i+1]+","+arrNewText[i+2]+","+arrNewText[i+3]+",");
+                    }*/
+                
                 
             }
   
@@ -240,7 +267,7 @@ public class TablaConBoton{
         
         return this.sp;
     }
-    
+
     /*
     public Object[][] getData(){
     

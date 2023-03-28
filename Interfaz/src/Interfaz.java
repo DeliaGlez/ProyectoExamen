@@ -298,9 +298,6 @@ public class Interfaz extends JFrame {
         this.add(AccedeATuCuenta);
 		return AccedeATuCuenta;
     }
-    
-    
-
 
     public JPanel HolaUsuario(){
 
@@ -327,8 +324,6 @@ public class Interfaz extends JFrame {
         this.add(HolaUsuario);
 		return HolaUsuario;
     }
-
-    
     public JPanel CuentaPersonal(){
 
         JPanel CuentaPersonal = new JPanel();
@@ -783,7 +778,7 @@ public class Interfaz extends JFrame {
 
         this.add(CuentaPersonal);
 		return CuentaPersonal;
-    }
+    }   
     public JPanel ListaDeUsuarios(){
 
         JPanel ListaDeUsuarios = new JPanel();
@@ -807,28 +802,25 @@ public class Interfaz extends JFrame {
         Editar.setSize(200,50);
         Editar.setLocation(75,140);
         ListaDeUsuarios.add(Editar);
-
-        //sacar array con correos
-        
 		
         String[] data;
 		String renglon;
         String texto="";
 
         try (BufferedReader BR = new BufferedReader(new FileReader("users.txt"))) {
+
             String temp="";
+
             while((renglon = BR.readLine()) != null ){
                 
                 data = renglon.split(",");
                 temp= temp + data[2]+",";
-                
-                
+
             }
             texto = temp;
             
             BR.close();
         } catch (HeadlessException | IOException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
 
@@ -1026,8 +1018,8 @@ public class Interfaz extends JFrame {
 								JOptionPane.showMessageDialog(null, "Usuario creado","Message!", JOptionPane.INFORMATION_MESSAGE);
 		                        archivo = new FileWriter("users.txt",true);
 		                        editor = new PrintWriter(archivo);
-		                        editor.println();
-		                        editor.print(valorNombre + "," + valorApellidos + "," + valorEmail + "," + valorContra);
+		                        //editor.println();
+		                        editor.print(valorNombre + "," + valorApellidos + "," + valorEmail + "," + valorContra + "," + "\n");
 		                        
 		                        nombredata.setText(null);
 		                        Apellidosdata.setText(null);
