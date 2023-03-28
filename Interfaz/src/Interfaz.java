@@ -1,4 +1,5 @@
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.plaf.IconUIResource;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -53,13 +55,6 @@ public class Interfaz extends JFrame {
         this.add(panel);
         anterior=1;
         actual=1;
-        
-        //AccedeATuCuenta();
-        //HolaUsuario();
-        //CuentaPersonal();
-        //ListaDeUsuarios();
-        //CrearUsuario();
-        //ComoCrearUnUsuario();
 
         this.repaint();
         this.revalidate();
@@ -67,6 +62,7 @@ public class Interfaz extends JFrame {
     }
     
     public void actualizarPanel(int ventSiguiente) {
+
     	anterior=actual;
     	actual=ventSiguiente;
     	
@@ -75,42 +71,50 @@ public class Interfaz extends JFrame {
 		}
 		
     	switch (actual) {
-    	case 1:
-    		panel = AccedeATuCuenta(); 
-			this.add(panel);
-    		break;
-    	case 2:
-    		panel = HolaUsuario(); 
-			this.add(panel);
-    		break;
-    	case 3:
-    		panel = CuentaPersonal(); 
-			this.add(panel);
-    		break;
-    	case 4:
-    		panel = ListaDeUsuarios(); 
-			this.add(panel);
-    		break;
-    	case 5:
-    		panel = CrearUsuario(); 
-			this.add(panel);
-    		break;
-    	case 6:
-    		panel = ComoCrearUnUsuario(); 
-			this.add(panel);
-    		break;
-    	case 7:
-    		panel=editarUsuario();
-    		this.add(panel);
-    		break;
+
+            case 1:
+                panel = AccedeATuCuenta(); 
+                this.add(panel);
+            break;
+
+            case 2:
+                panel = HolaUsuario(); 
+                this.add(panel);
+            break;
+
+            case 3:
+                panel = CuentaPersonal(); 
+                this.add(panel);
+            break;
+
+            case 4:
+                panel = ListaDeUsuarios(); 
+                this.add(panel);
+            break;
+
+            case 5:
+                panel = CrearUsuario(); 
+                this.add(panel);
+            break;
+
+            case 6:
+                panel = ComoCrearUnUsuario(); 
+                this.add(panel);
+            break;
+
+            case 7:
+                panel=editarUsuario();
+                this.add(panel);
+            break;
+
     	}
+
     	this.repaint();
         this.revalidate();
     }
 
     public void Menu(JPanel nuevo){
 
-        //JMENUBAR
 		JMenuBar barra = new JMenuBar();
 		barra.setLocation(0,0);
 		barra.setSize(500, 20);
@@ -138,6 +142,7 @@ public class Interfaz extends JFrame {
 			}
         	
         });
+
         item12.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -241,15 +246,16 @@ public class Interfaz extends JFrame {
 		iniciarSesion.setForeground(Color.decode("#FFFFFF"));
 		
 		iniciarSesion.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 
                 String correo = nombredata.getText();
                 String password = String.valueOf(contradata.getPassword());
                 String[] data;
 
                 try{
+
                     BufferedReader BR = new BufferedReader(new FileReader("users.txt"));
                     String renglon;
                     boolean validacion = false;
@@ -259,11 +265,15 @@ public class Interfaz extends JFrame {
                         data = renglon.split(",");
 
                         if (data[2].equals(correo) && data[3].equals(password)) {
-                        	nombreUser=data[0];
+                        	
+                            nombreUser=data[0];
                             correoUser=data[2];
+
                             JOptionPane.showMessageDialog(null, "Bienvenido "+ nombreUser,"INGRESO EXITOSO", JOptionPane.INFORMATION_MESSAGE);
                             actualizarPanel(2);
+                            
                             validacion = true;
+
                         }
                     }
                     if (validacion == false){
@@ -273,8 +283,6 @@ public class Interfaz extends JFrame {
                 }catch(Exception f){
                 	System.err.println("No se encontro archivo");
                 }
-                
-				
 			}			
 		});
 		
@@ -288,25 +296,21 @@ public class Interfaz extends JFrame {
         Cancelar.setBackground(Color.decode("#2C3333"));
         Cancelar.setForeground(Color.decode("#FFFFFF"));
         
-        // accion boton cancelar 
         Cancelar.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				actualizarPanel(1);
 			}
 			
 		});
+
 		AccedeATuCuenta.add(Cancelar);
 
         this.add(AccedeATuCuenta);
 		return AccedeATuCuenta;
     }
     
-    
-
-
     public JPanel HolaUsuario(){
 
         JPanel HolaUsuario = new JPanel();
@@ -330,6 +334,7 @@ public class Interfaz extends JFrame {
         HolaUsuario.add(imagen);
 
         this.add(HolaUsuario);
+
 		return HolaUsuario;
     }
 
@@ -408,17 +413,19 @@ public class Interfaz extends JFrame {
         contradata.setLocation(76,520);
         CuentaPersonal.add(contradata);
        
-        //lectura de datos y asignacion de los datos a los campos 
         String[] data;
 
         try{
+
             BufferedReader BR = new BufferedReader(new FileReader("users.txt"));
             String renglon;
 
             while((renglon = BR.readLine()) != null ){
 
                 data = renglon.split(",");
+
                 if (data[2].equals(correoUser)) {
+
                 	nombredata.setText(data[0]);
                 	Apellidosdata.setText(data[1]);
                 	Emaildata.setText(data[2]);
@@ -426,13 +433,13 @@ public class Interfaz extends JFrame {
    
                 }
             }
+
             BR.close();
  
         }catch(Exception f){
         	System.err.println("No se encontro archivo");
         }
         
-        //
         JButton ActualizarDatos = new JButton("Actualizar datos");
         ActualizarDatos.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 15));
 		ActualizarDatos.setSize(150, 40);
@@ -440,12 +447,10 @@ public class Interfaz extends JFrame {
         ActualizarDatos.setBackground(Color.decode("#2C3333"));
         ActualizarDatos.setForeground(Color.decode("#FFFFFF"));
         
-        //accion  boton actualizar datos
         ActualizarDatos.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent e){
-				// TODO Auto-generated method stub
+				
 				String nuevoNombre=nombredata.getText();
 				String nuevoApell=Apellidosdata.getText();
 				String nuevoEmail=Emaildata.getText();
@@ -462,22 +467,28 @@ public class Interfaz extends JFrame {
                     String renglon;
 
                     try (BufferedReader BR = new BufferedReader(new FileReader("users.txt"))) {
+
                         String temp="";
+
                         while((renglon = BR.readLine()) != null ){
+
                             temp= temp + renglon;
                             data = renglon.split(",");
                             
                             if (!(nuevoEmail.contentEquals(correoUser)) && data[2].equals(nuevoEmail)) {
+
                                 JOptionPane.showMessageDialog(null, "Correo ya existente.","ERROR!", JOptionPane.ERROR_MESSAGE);
                                 Emaildata.setText(correoUser);
                                 encontrado= true;
+
                             }
                             
                         }
+
                         texto= temp;
                         BR.close();
+
                     } catch (HeadlessException | IOException e1) {
-                        // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
 			
@@ -489,10 +500,12 @@ public class Interfaz extends JFrame {
                         for (int i = 0; i < arrText.length; i++){
                             
                             if(arrText[i].equals(correoUser)){
+
                                 arrText[i-2]=nuevoNombre;
                                 arrText[i-1]=nuevoApell;
                                 arrText[i]=nuevoEmail;
                                 arrText[i+1]=nuevaContra;
+
                             }
 
                         }
@@ -505,13 +518,7 @@ public class Interfaz extends JFrame {
                             editor = new PrintWriter(archivo);
         
                             for(int i=0; i<arrText.length;i+=4) {
-
-                                if(i!=arrText.length-4){
-                                    editor.println(arrText[i]+","+arrText[i+1]+","+arrText[i+2]+","+arrText[i+3]+",");
-                                }
-                                else{
-                                    editor.print(arrText[i]+","+arrText[i+1]+","+arrText[i+2]+","+arrText[i+3]+",");
-                                }
+                                editor.println(arrText[i]+","+arrText[i+1]+","+arrText[i+2]+","+arrText[i+3]+",");
                             }
 
                             JOptionPane.showMessageDialog(null, "Informacion actualizada","Message!", JOptionPane.INFORMATION_MESSAGE);                       
@@ -534,7 +541,6 @@ public class Interfaz extends JFrame {
 			}   
         });
         
-        
 		CuentaPersonal.add(ActualizarDatos);
 
         JButton Cancelar = new JButton();
@@ -544,13 +550,10 @@ public class Interfaz extends JFrame {
 		Cancelar.setText("Cancelar");
         Cancelar.setBackground(Color.decode("#2C3333"));
         Cancelar.setForeground(Color.decode("#FFFFFF"));
-        
-        // accion boton cancelar 
+
         Cancelar.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				actualizarPanel(anterior);
 			}
 			
@@ -635,11 +638,11 @@ public class Interfaz extends JFrame {
         contradata.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 15));
         contradata.setLocation(76,520);
         CuentaPersonal.add(contradata);
-       
-        //lectura de datos y asignacion de los datos a los campos 
+
         String[] data;
 
         try{
+
             BufferedReader BR = new BufferedReader(new FileReader("users.txt"));
             String renglon;
 
@@ -647,20 +650,21 @@ public class Interfaz extends JFrame {
 
                 data = renglon.split(",");
                 if (data[2].equals(correoComboSelect)) {
+
                 	nombredata.setText(data[0]);
                 	Apellidosdata.setText(data[1]);
                 	Emaildata.setText(data[2]);
                 	contradata.setText(data[3]);
-   
+
                 }
             }
+
             BR.close();
  
         }catch(Exception f){
         	System.err.println("No se encontro archivo");
         }
         
-        //
         JButton ActualizarDatos = new JButton("Actualizar datos");
         ActualizarDatos.setFont(new Font("Franklin Gothic Demi", Font.TRUETYPE_FONT, 15));
 		ActualizarDatos.setSize(150, 40);
@@ -668,12 +672,10 @@ public class Interfaz extends JFrame {
         ActualizarDatos.setBackground(Color.decode("#2C3333"));
         ActualizarDatos.setForeground(Color.decode("#FFFFFF"));
         
-        //accion  boton actualizar datos
         ActualizarDatos.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent e){
-				// TODO Auto-generated method stub
+				
 				String nuevoNombre=nombredata.getText();
 				String nuevoApell=Apellidosdata.getText();
 				String nuevoEmail=Emaildata.getText();
@@ -690,22 +692,28 @@ public class Interfaz extends JFrame {
                     String renglon;
 
                     try (BufferedReader BR = new BufferedReader(new FileReader("users.txt"))) {
+
                         String temp="";
+
                         while((renglon = BR.readLine()) != null ){
+
                             temp= temp + renglon;
                             data = renglon.split(",");
                             
                             if (!(nuevoEmail.contentEquals(correoComboSelect)) && data[2].equals(nuevoEmail)) {
+
                                 JOptionPane.showMessageDialog(null, "Correo ya existente.","ERROR!", JOptionPane.ERROR_MESSAGE);
                                 Emaildata.setText(correoComboSelect);
                                 encontrado= true;
+
                             }
                             
                         }
+
                         texto= temp;
                         BR.close();
+
                     } catch (HeadlessException | IOException e1) {
-                        // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
 			
@@ -717,10 +725,12 @@ public class Interfaz extends JFrame {
                         for (int i = 0; i < arrText.length; i++){
                             
                             if(arrText[i].equals(correoComboSelect)){
+
                                 arrText[i-2]=nuevoNombre;
                                 arrText[i-1]=nuevoApell;
                                 arrText[i]=nuevoEmail;
                                 arrText[i+1]=nuevaContra;
+
                             }
 
                         }
@@ -733,13 +743,7 @@ public class Interfaz extends JFrame {
                             editor = new PrintWriter(archivo);
         
                             for(int i=0; i<arrText.length;i+=4) {
-
-                                if(i!=arrText.length-4){
-                                    editor.println(arrText[i]+","+arrText[i+1]+","+arrText[i+2]+","+arrText[i+3]+",");
-                                }
-                                else{
-                                    editor.print(arrText[i]+","+arrText[i+1]+","+arrText[i+2]+","+arrText[i+3]+",");
-                                }
+                                editor.println(arrText[i]+","+arrText[i+1]+","+arrText[i+2]+","+arrText[i+3]+",");
                             }
 
                             JOptionPane.showMessageDialog(null, "Informacion actualizada","Message!", JOptionPane.INFORMATION_MESSAGE);                       
@@ -762,7 +766,6 @@ public class Interfaz extends JFrame {
 			}   
         });
         
-        
 		CuentaPersonal.add(ActualizarDatos);
 
         JButton Cancelar = new JButton();
@@ -773,12 +776,9 @@ public class Interfaz extends JFrame {
         Cancelar.setBackground(Color.decode("#2C3333"));
         Cancelar.setForeground(Color.decode("#FFFFFF"));
         
-        // accion boton cancelar 
         Cancelar.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				actualizarPanel(anterior);
 			}
 			
@@ -789,6 +789,7 @@ public class Interfaz extends JFrame {
         this.add(CuentaPersonal);
 		return CuentaPersonal;
     }
+
     public JPanel ListaDeUsuarios(){
 
         JPanel ListaDeUsuarios = new JPanel();
@@ -813,27 +814,25 @@ public class Interfaz extends JFrame {
         Editar.setLocation(75,140);
         ListaDeUsuarios.add(Editar);
 
-        //sacar array con correos
-        
-		
         String[] data;
 		String renglon;
         String texto="";
 
         try (BufferedReader BR = new BufferedReader(new FileReader("users.txt"))) {
+
             String temp="";
+
             while((renglon = BR.readLine()) != null ){
                 
                 data = renglon.split(",");
                 temp= temp + data[2]+",";
                 
-                
             }
+
             texto = temp;
-            
             BR.close();
+
         } catch (HeadlessException | IOException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
 
@@ -858,8 +857,8 @@ public class Interfaz extends JFrame {
 
         EditarUsuario.addActionListener(new ActionListener() {
 
-            @Override
             public void actionPerformed(ActionEvent e) {
+
                 correoComboSelect = (String)EscogerUsuario.getSelectedItem();
                 actualizarPanel(7);
                 
@@ -869,19 +868,17 @@ public class Interfaz extends JFrame {
         
         EscogerUsuario.addActionListener(new ActionListener() {
 
-            @Override
             public void actionPerformed(ActionEvent e) {
+
                 String UsuarioX = (String)EscogerUsuario.getSelectedItem();
                 EditarUsuario.setText("Editar a “" + UsuarioX + "” ");
+
             }
             
         });
 
         ListaDeUsuarios.add(EscogerUsuario);
         tabla(ListaDeUsuarios);
-        
-
-        
 
         JLabel espacioTabla = new JLabel("Espacio de la tabla", JLabel.CENTER);
         espacioTabla.setOpaque(true);
@@ -894,7 +891,7 @@ public class Interfaz extends JFrame {
     }
     
     public void tabla(JPanel ListaUser) {
-    	//TablaConBoton tablita = new TablaConBoton();
+    	
     	DefaultTableModel dtm;
         JTable tabla;
         JScrollPane sp;
@@ -908,39 +905,39 @@ public class Interfaz extends JFrame {
         
         String[] nombreColumnas = {"Nombre","Apellidos","Correo","Contraseña", "Acciones"};
 
-		//      Nombre,      Apellidos,   Correo,      Contraseña,  Boton.
+		//                      Nombre,      Apellidos,   Correo,      Contraseña,  Boton
 		Class[] tipoColumnas = {String.class,String.class,String.class,String.class,JButton.class};
 		
 		dtm = new DefaultTableModel(data,nombreColumnas){
 		
-		public Class getColumnClass(int indexColumna){
+		    public Class getColumnClass(int indexColumna){
 		
-		return tipoColumnas[indexColumna];
-		}
+		        return tipoColumnas[indexColumna];
+		    }
+            
 		};
 
         try{
+
             BufferedReader BR = new BufferedReader(new FileReader("users.txt"));
             String renglon;
-            
 
             while((renglon = BR.readLine()) != null ){
                 
                 info = renglon.split(",");
                 
-               for(int i=0;i<arrBoton.length;i++) {
+                for(int i=0;i<arrBoton.length;i++) {
+
                 	if((i % 4 == 0)&& (i!=0)) {
                 		arrBoton[i]= Eliminar;
                 	}
                 	else {
                 		arrBoton[i]=info[i];
                 	}
-                	
-                	
+
                 }
                
                 dtm.addRow(arrBoton);
-
             }
             
             
@@ -950,14 +947,11 @@ public class Interfaz extends JFrame {
         
         tabla = new JTable(dtm);
         tabla.getTableHeader().setReorderingAllowed(false);
-
-        //editar el tamaño de las celdas
         tabla.getColumnModel().getColumn(0).setPreferredWidth(70);
         tabla.getColumnModel().getColumn(4).setPreferredWidth(80);
 
         tabla.setDefaultRenderer(JButton.class, new TableCellRenderer() {
             
-            @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
                 
                 return(Component)value;
@@ -979,26 +973,27 @@ public class Interfaz extends JFrame {
                 if(column == 4){
 
                     for (int i = 0; i < tabla.getModel().getColumnCount()-1; i++) {
+
                         text+=tabla.getModel().getColumnName(i) + ": " + tabla.getModel().getValueAt(row, i) + "\n";
+
                         if(i==2){
+
                             correoAux=(String) tabla.getModel().getValueAt(row, i) ;
                             System.out.println("correo: "+correoAux);
+
                         }
                         
                     }
 
-                    //JOptionPane.showMessageDialog(null, text, "titulo", 1);
-                    int salida=JOptionPane.showConfirmDialog(null, text, "seguuuuro?", 2);
-                    
+                    int salida = JOptionPane.showConfirmDialog(null, "Desea eliminar la cuenta: " + correoAux + "?", "Gestor de usuarios", 2, 3, null);
                     text = "";
+
                     if(salida==0){
+
                         System.out.println("borrando...");
                         actualizarText(correoAux);
                         correoAux = "";
                         actualizarPanel(4);	
-                        
-                        
-                        
 
                     }
 
@@ -1007,28 +1002,27 @@ public class Interfaz extends JFrame {
             }
         });
     	
-    	
     	ListaUser.add(sp);
     }
     
     public void actualizarText(String correoUser){
+
         FileWriter archivo = null;
         PrintWriter editor = null;
-       // String[] data;
-        
-        String texto="";
+        String texto ="";
         String renglon;
          
         try (BufferedReader BR = new BufferedReader(new FileReader("users.txt"))) {
-            String temp="";
+
+            String temp = "";
+
             while((renglon = BR.readLine()) != null ){
-                temp= temp + renglon;
-                //data = renglon.split(",");
+                temp = temp + renglon;
             }
-            texto= temp;
+            
+            texto = temp;
             BR.close();
         } catch (HeadlessException | IOException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
 
@@ -1038,10 +1032,12 @@ public class Interfaz extends JFrame {
         for (int i = 0; i < arrText.length; i++){
             
             if(arrText[i].equals(correoUser)){
+
                 arrText[i-2]="0";
                 arrText[i-1]="0";
                 arrText[i]="0";
                 arrText[i+1]="0";
+
             }
         }
         
@@ -1049,9 +1045,11 @@ public class Interfaz extends JFrame {
         int cont=0;
 
         for (int i = 0; i < arrText.length; i++){
-            if(arrText[i]!="0" ){
+            if(arrText[i]!="0"){
+
                 arrNewText[cont]=arrText[i];
                 cont++;
+
             }
         }
         
@@ -1063,8 +1061,6 @@ public class Interfaz extends JFrame {
             for(int i=0; i<arrNewText.length;i+=4) {
                 editor.println(arrNewText[i]+","+arrNewText[i+1]+","+arrNewText[i+2]+","+arrNewText[i+3]+","); 
             }
-
-            
   
         } 
         catch (Exception e1) {
@@ -1172,12 +1168,10 @@ public class Interfaz extends JFrame {
         CrearUsuariobutton.setBackground(Color.decode("#2C3333"));
         CrearUsuariobutton.setForeground(Color.decode("#FFFFFF"));
         
-        // accion crear usuario
         CrearUsuariobutton.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 				String valorNombre= nombredata.getText();
 				String valorApellidos= Apellidosdata.getText();
 				String valorEmail= Emaildata.getText();
@@ -1191,32 +1185,35 @@ public class Interfaz extends JFrame {
 				
 				if(!valorNombre.isEmpty()&&!valorApellidos.isEmpty()&&!valorEmail.isEmpty()&&!valorContra.isEmpty()&&!valorConfContra.isEmpty()) {
 					
-					if (valorContra.contentEquals(valorConfContra) )	{
+					if (valorContra.contentEquals(valorConfContra)){
 						
 						String renglon;
-						try (BufferedReader BR = new BufferedReader(new FileReader("users.txt"))) {
+
+						try (BufferedReader BR = new BufferedReader(new FileReader("users.txt"))){
 							
 							while((renglon = BR.readLine()) != null ){
 
 								data = renglon.split(",");
 
-								if (data[2].equals(valorEmail)) {
+								if (data[2].equals(valorEmail)){
+
 									JOptionPane.showMessageDialog(null, "Correo ya existente.","ERROR!", JOptionPane.ERROR_MESSAGE);
 									encontrado= true;
+
 								}
 								
 							}
 						} catch (HeadlessException | IOException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 						
 						if(!encontrado){
 							try {
+
 								JOptionPane.showMessageDialog(null, "Usuario creado","Message!", JOptionPane.INFORMATION_MESSAGE);
 		                        archivo = new FileWriter("users.txt",true);
 		                        editor = new PrintWriter(archivo);
-		                        //editor.println();
+
 		                        editor.print(valorNombre + "," + valorApellidos + "," + valorEmail + "," + valorContra+","+"\n");
 		                        
 		                        nombredata.setText(null);
@@ -1227,7 +1224,6 @@ public class Interfaz extends JFrame {
 
 		                    } 
 		                    catch (Exception e1) {
-
 		                        System.err.println("Datos NO guardados");
 		                    } finally{
 		                        try {
@@ -1243,8 +1239,9 @@ public class Interfaz extends JFrame {
 	                    JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden","ERROR!", JOptionPane.ERROR_MESSAGE);
 	                }
 				}
-				else
+				else{
 					JOptionPane.showMessageDialog(null, "Llene todos los campos.",null,JOptionPane.ERROR_MESSAGE);
+                }
 			}
         	
         });
@@ -1259,16 +1256,15 @@ public class Interfaz extends JFrame {
         Cancelar.setBackground(Color.decode("#2C3333"));
         Cancelar.setForeground(Color.decode("#FFFFFF"));
         
-     // accion boton cancelar 
         Cancelar.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				actualizarPanel(anterior);
 			}
 			
 		});
+
 		CrearUsuario.add(Cancelar);
 
         this.add(CrearUsuario);
@@ -1305,16 +1301,14 @@ public class Interfaz extends JFrame {
         CrearUnUsuarioAhora.setBackground(Color.decode("#2C3333"));
         CrearUnUsuarioAhora.setForeground(Color.decode("#FFFFFF"));
         
-     // accion boton cancelar 
         CrearUnUsuarioAhora.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				actualizarPanel(5);
 			}
 			
 		});
+        
 		ComoCrearUnUsuario.add(CrearUnUsuarioAhora);
         
         JTextArea helptext = new JTextArea("  1. Hacer click en la opción “Usuarios” en el menú superior." + "\n" + "\n  2. Hacer click en la opción “Crear Usuario” en el menú" + "\n      desplegado" + "\n" + "\n  3. Llenar los campos solicitados" + "\n" + "\n  4. Hacer click en el botón “Crear usuario”" + "\n" + "\n  5. Listo, el usuario se ha creado");
