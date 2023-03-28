@@ -1,8 +1,12 @@
 import java.awt.Component;
+import java.awt.HeadlessException;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -124,21 +128,102 @@ public class TablaConBoton{
 
                 int row = tabla.getSelectedRow();
                 int column = tabla.getSelectedColumn();
+                String correoAux = "";
 
                 if(column == 4){
 
                     for (int i = 0; i < tabla.getModel().getColumnCount()-1; i++) {
-                        text+=tabla.getModel().getColumnName(i) + " : " + tabla.getModel().getValueAt(row, i) + "\n";
+                        text+=tabla.getModel().getColumnName(i) + ": " + tabla.getModel().getValueAt(row, i) + "\n";
+                        if(i==2){
+                            correoAux=(String) tabla.getModel().getValueAt(row, i) ;
+                            System.out.println("correo: "+correoAux);
+                        }
+                        
                     }
 
-                    JOptionPane.showMessageDialog(null, text, "titulo", 1);
+                    //JOptionPane.showMessageDialog(null, text, "titulo", 1);
+                    int salida=JOptionPane.showConfirmDialog(null, text, "seguuuuro?", 2);
+                    
                     text = "";
+                    if(salida==0){
+                        System.out.println("borrando...");
+                        actualizarText(correoAux);
+                        correoAux = "";
+                        
+
+                    }
 
                 }
 
             }
         });
     }
+
+    public void actualizarText(String correoUser){
+        FileWriter archivo = null;
+        PrintWriter editor = null;
+       // String[] data;
+        
+        String texto="";
+        String renglon;
+         
+        try (BufferedReader BR = new BufferedReader(new FileReader("users.txt"))) {
+            String temp="";
+            while((renglon = BR.readLine()) != null ){
+                temp= temp + renglon;
+                //data = renglon.split(",");
+            }
+            texto= temp;
+            BR.close();
+        } catch (HeadlessException | IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+
+		String[] arrText = null;
+        arrText = texto.split(",");
+        
+        for (int i = 0; i < arrText.length; i++){
+            
+            if(arrText[i].equals(correoUser)){
+                arrText[i-2]="0";
+                arrText[i-1]="0";
+                arrText[i]="0";
+                arrText[i+1]="0";
+            }
+        }
+        
+        try {
+
+            archivo = new FileWriter("users.txt");
+            editor = new PrintWriter(archivo);
+
+            for(int i=0; i<arrText.length;i+=4) {
+
+                if(arrText[i]!="0"){
+                    if(i!=arrText.length-4){
+                        editor.println(arrText[i]+","+arrText[i+1]+","+arrText[i+2]+","+arrText[i+3]+",");
+                    }
+                    else{
+                        editor.print(arrText[i]+","+arrText[i+1]+","+arrText[i+2]+","+arrText[i+3]+",");
+                    }
+                }
+                
+            }
+  
+        } 
+        catch (Exception e1) {
+            System.err.println("Datos NO guardados");
+        } finally{
+            try {
+                archivo.close();
+            } catch (IOException e1) {
+                System.err.println("ERROR");
+            }
+        }
+    }
+
+    
 
     public JTable getTabla(){
         return this.tabla;
@@ -155,6 +240,7 @@ public class TablaConBoton{
         
         return this.sp;
     }
+    
     /*
     public Object[][] getData(){
     
